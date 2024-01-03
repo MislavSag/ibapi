@@ -101,8 +101,10 @@ function(accountId, symbol, sectype, side , tif, weight,
 #* @param table Table name to save data to
 #* @param variable Variable name
 #* @param value Value to save
+#* @param db_host Database host
+#* @param db_pass Database pass
 #* @post /insert
-function(table, variable, value) {
+function(table, variable, value, db_host, db_pass) {
 
   # debug
   # table = "indicators_pra"
@@ -112,10 +114,10 @@ function(table, variable, value) {
   # CGS connection
   con <- dbConnect(RPostgres::Postgres(),
                    dbname = "defaultdb",
-                   host = "db-postgresql-fra1-54406-do-user-13776848-0.c.db.ondigitalocean.com",
+                   host = db_host,
                    port = 25060L,
                    user = "doadmin",
-                   password = "AVNS_7h0PktF6BbOHWOUK45K"
+                   password = db_pass
   )
 
   # check if loging table exists. If it doesn't exists create logging table.
@@ -140,37 +142,3 @@ function(table, variable, value) {
   dbDisconnect(con)
   return(1)
 }
-
-######### DEBUG: check if order exists ##########
-# orders <- ib_get(paste0(domain, ":", port, "/v1/api/iserver/account/orders"))
-# # ib get template
-# ib_delete = function(url = paste0(domain, ":", port, "/v1/api/sso/validate"),
-#                      query = NULL) {
-#   p <- RETRY("GET",
-#              url,
-#              add_headers('User-Agent' = 'Console',
-#                          'content-type' = 'application/json'),
-#              config = httr::config(ssl_verifypeer = FALSE, ssl_verifyhost = FALSE),
-#              query = query,
-#              times = 5L)
-#   x <- content(p)
-#   return(x)
-# }
-# cancel_order <- ib_delete(paste0(domain, ":", port, "/v1/api/iserver/account/", account_id, "/order/", orders$orders[[1]]$orderId))
-######### DEBUG: check if order exists ##########
-
-# crete container registry
-# az acr build -g Strategies --image livealgos:v2 --registry cgsqcwebhook --file Dockerfile .
-
-
-# # db table
-# connec <- dbConnect(RPostgres::Postgres(),
-#                     dbname = "defaultdb",
-#                     host = "db-postgresql-fra1-02794-do-user-8031900-0.b.db.ondigitalocean.com",
-#                     port = 25060L,
-#                     user = "doadmin",
-#                     password = "AVNS_5qn9VrZkXntvZnQNsSm"
-# )
-# DBI::dbListTables(connec)
-# table_ = dbReadTable(connec, "indicators_minmax")
-# dbDisconnect(connec)

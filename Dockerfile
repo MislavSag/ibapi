@@ -1,5 +1,5 @@
 # Dockerfile
-FROM rocker/r-base:4.3.2
+FROM rocker/r-base:4.3.1
 
 # install apps
 RUN apt-get update --fix-missing \
@@ -51,7 +51,7 @@ RUN R -e "install.packages('mailR')"
 RUN R -e "install.packages('DBI')"
 RUN R -e "install.packages('RPostgres')"
 RUN R -e "install.packages('remotes')"
-RUN R -e "remotes::install_github('MislavSag/ibrest')"
+RUN R -e "remotes::install_github('MislavSag/ibrestr')"
 
 # when the container starts, start the main R script
 ENTRYPOINT ["Rscript", "execute_plumber.R"]
